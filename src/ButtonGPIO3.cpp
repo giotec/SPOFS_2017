@@ -26,7 +26,7 @@ ButtonGPIO3::~ButtonGPIO3()
  */
 int8_t ButtonGPIO3::UpdateStatus()
 {
-  int8_t _sts = LPC_GPIO3->FIOPIN & (1<<bit);
+  int8_t _sts = LPC_GPIO3->FIOPIN & (1<<GPIOBit);
 
   switch(Status)
   {

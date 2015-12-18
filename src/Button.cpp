@@ -10,7 +10,7 @@
 Button::Button(int8_t bit)
 {
   GPIOBit = bit;
-  Status = 0;
+  Status = UP;
 }
 
 Button::~Button()

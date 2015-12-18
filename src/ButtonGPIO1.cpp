@@ -26,7 +26,7 @@ ButtonGPIO1::~ButtonGPIO1()
  */
 int8_t ButtonGPIO1::UpdateStatus()
 {
-  int8_t _sts = LPC_GPIO1->FIOPIN & (1<<bit);
+  int8_t _sts = LPC_GPIO1->FIOPIN & (1<<GPIOBit);
 
   switch(Status)
   {
