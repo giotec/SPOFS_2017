@@ -6,6 +6,7 @@
  */
 
 #include "Button.h"
+#include "LPC17xx.h"
 
 Button::Button(int8_t bit)
 {
