@@ -30,3 +30,16 @@ int main(void) {
     }
     return 0 ;
 }
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+  void SysTick_Handler (void)
+  {
+
+  }
+
+#ifdef __cplusplus
+}
+#endif

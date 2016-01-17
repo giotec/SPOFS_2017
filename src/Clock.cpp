@@ -14,7 +14,6 @@ Clock::Clock()
   Min = 0;
   Hour = 0;
   Days = 0;
-  Blink = 0;
 }
 
 Clock::~Clock()
@@ -22,12 +21,9 @@ Clock::~Clock()
   // TODO Auto-generated destructor stub
 }
 
-void Clock::IncrementClock()
+int Clock::IncrementClock()
 {
   MSec++;
-
-  if(MSec/50){Blink = 1;}
-  else{Blink = 0;}
 
   if(MSec >= 100) // Calculate time
   {
@@ -37,21 +33,27 @@ void Clock::IncrementClock()
     if(Min >= 60){Min = 0;Hour++;
     if(Hour >= 24){Hour = 0;Days++;}}}
   }
+
+  // Add timed fire event checks here
+  // ie every second or every 500mS set a return bit to be passed back to SysTick
+  return 0;
 }
 
 int8_t Clock::IntervalCheck(Intervals _int)
 {
   switch (_int)
   {
-    case IQSec:
-      return MSec/25;
+    case IQSec: // true for alternating quarter seconds
+      return (MSec%50)/25;
       break;
-    case IHSec:
+    case IHSec: // true for alternating half seconds
       return MSec/50;
       break;
-    case ISec:
+    case ISec: // true for alternating seconds
+      return Sec%2;
       break;
-    case IMin:
+    case IMin: // true for alternating minutes
+      return Min%2;
       break;
     default:
       return 0;

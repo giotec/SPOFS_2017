@@ -13,7 +13,7 @@ public:
   Clock();
   virtual ~Clock();
 
-  void IncrementClock();
+  int IncrementClock();
   int8_t IntervalCheck(Intervals _int);
 
   enum Intervals {IQSec, IHSec, ISec, IMin};
@@ -24,7 +24,6 @@ private:
   uint8_t   Min;
   uint8_t   Hour;
   uint32_t  Days;
-  uint8_t   Blink;  // half second toggle bit
 };
 
 #endif /* CLOCK_H_ */
