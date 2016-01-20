@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>G:\Users\Stuff\Source\Repos\SPOFS_2017\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Paul\Source\Repos\SPOFS_2017\inc;G:\Users\Stuff\Source\Repos\SPOFS_2017\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,32 +112,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\CommonDefs.h" />
     <ClInclude Include="inc\BMU.h" />
     <ClInclude Include="inc\Button.h" />
     <ClInclude Include="inc\ButtonCol.h" />
-    <ClInclude Include="inc\ButtonGPIO0.h" />
-    <ClInclude Include="inc\ButtonGPIO1.h" />
-    <ClInclude Include="inc\ButtonGPIO2.h" />
-    <ClInclude Include="inc\ButtonGPIO3.h" />
-    <ClInclude Include="inc\ButtonGPIO4.h" />
     <ClInclude Include="inc\Car.h" />
     <ClInclude Include="inc\Clock.h" />
+    <ClInclude Include="inc\Converter.h" />
+    <ClInclude Include="inc\core_cm3.h" />
+    <ClInclude Include="inc\core_cmFunc.h" />
+    <ClInclude Include="inc\core_cmInstr.h" />
+    <ClInclude Include="inc\LPC17xx.h" />
+    <ClInclude Include="inc\system_LPC17xx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BMU.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\ButtonCol.cpp" />
-    <ClCompile Include="src\ButtonGPIO0.cpp" />
-    <ClCompile Include="src\ButtonGPIO1.cpp" />
-    <ClCompile Include="src\ButtonGPIO2.cpp" />
-    <ClCompile Include="src\ButtonGPIO3.cpp" />
-    <ClCompile Include="src\ButtonGPIO4.cpp" />
     <ClCompile Include="src\Car.cpp" />
     <ClCompile Include="src\Clock.cpp" />
+    <ClCompile Include="src\Converter.c" />
     <ClCompile Include="src\crp.c" />
     <ClCompile Include="src\cr_cpp_config.cpp" />
     <ClCompile Include="src\cr_startup_lpc175x_6x.cpp" />
     <ClCompile Include="src\SPOFS_2017.cpp" />
+    <ClCompile Include="src\system_LPC17xx.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

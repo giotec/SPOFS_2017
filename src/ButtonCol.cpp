@@ -6,43 +6,45 @@
  */
 
 #include "ButtonCol.h"
-#include "ButtonGPIO0.h"
-#include "ButtonGPIO1.h"
-#include "ButtonGPIO2.h"
-#include "ButtonGPIO3.h"
-#include "ButtonGPIO4.h"
+#include "Button.h"
 
-ButtonCol::ButtonCol(int8_t* Btns[2], unsigned int ButtonCount)
+ButtonCollection::ButtonCollection(uint8_t* Btns[2], unsigned int BtnCount)
 {
-  // TODO Auto-generated constructor stub
-  Buttons = new Button*[ButtonCount];
+	ButtonCount = BtnCount;
 
-  for (int i = 0; i < ButtonCount; i++)
-  {
-    switch (Btns[0][i])
-    {
-      case 0:
-        Buttons[i] = new ButtonGPIO0(Btns[1][i]);
-        break;
-      case 1:
-        Buttons[i] = new ButtonGPIO1(Btns[1][i]);
-        break;
-      case 2:
-        Buttons[i] = new ButtonGPIO2(Btns[1][i]);
-        break;
-      case 3:
-        Buttons[i] = new ButtonGPIO3(Btns[1][i]);
-        break;
-      case 4:
-        Buttons[i] = new ButtonGPIO4(Btns[1][i]);
-        break;
-      default:
-        break;
-    }
-  }
+	Buttons = new Button*[ButtonCount];
+
+	for (int i = 0; i < ButtonCount; i++)
+	{
+		Buttons[i] = new Button(Btns[0][i], Btns[1][i]);
+	}
 }
 
-ButtonCol::~ButtonCol()
+ButtonCollection::~ButtonCollection()
 {
-  // TODO Auto-generated destructor stub
+	// TODO Auto-generated destructor stub
+}
+
+uint8_t* ButtonCollection::GetStatus()
+{
+	uint8_t *Status = new uint8_t[ButtonCount];
+
+	for (int i = 0; i < ButtonCount; i++)
+	{
+		Status[i] = Buttons[i]->GetStatus();
+	}
+
+	return Status;
+}
+
+uint8_t* ButtonCollection::UpdateStatus()
+{
+	uint8_t *Status = new uint8_t[ButtonCount];
+
+	for (int i = 0; i < ButtonCount; i++)
+	{
+		Status[i] = Buttons[i]->UpdateStatus();
+	}
+
+	return Status;
 }

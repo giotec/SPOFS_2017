@@ -39,7 +39,7 @@ int Clock::IncrementClock()
   return 0;
 }
 
-int8_t Clock::IntervalCheck(Intervals _int)
+uint8_t Clock::ToggleCheck(unsigned int _int)
 {
   switch (_int)
   {

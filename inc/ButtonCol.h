@@ -5,16 +5,23 @@
  *      Author: Stuff
  */
 
+#include "LPC17xx.h"
+#include "Button.h"
+
 #ifndef BUTTONCOL_H_
 #define BUTTONCOL_H_
 
-class ButtonCol {
+class ButtonCollection {
 public:
-  ButtonCol(int8_t* Btns[2], unsigned int ButtonCount);
-  virtual ~ButtonCol();
+  ButtonCollection(uint8_t** Btns, unsigned int BtnCount);
+  virtual ~ButtonCollection();
+
+  uint8_t *UpdateStatus();
+  uint8_t *GetStatus();
 
 private:
-  Button *Buttons;
+	unsigned int ButtonCount;
+	Button **Buttons;
 };
 
 #endif /* BUTTONCOL_H_ */

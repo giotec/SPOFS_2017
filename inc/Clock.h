@@ -8,13 +8,15 @@
 #ifndef CLOCK_H_
 #define CLOCK_H_
 
+#include "LPC17xx.h"
+
 class Clock {
 public:
   Clock();
   virtual ~Clock();
 
   int IncrementClock();
-  int8_t IntervalCheck(Intervals _int);
+  uint8_t ToggleCheck(unsigned int _int);
 
   enum Intervals {IQSec, IHSec, ISec, IMin};
 

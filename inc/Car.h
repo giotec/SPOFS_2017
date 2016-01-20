@@ -9,12 +9,19 @@
 #ifndef CAR_H_
 #define CAR_H_
 
+#include "Clock.h"
+#include "ButtonCol.h"
+#include "BMU.h"
+#include "lpc17xx.h"
+
 class Car {
 public:
   Car();
   virtual ~Car();
 
-  Clock Clk;
+  Clock *Clk;
+  ButtonCollection *Btns;
+  BMU *Bmu;
 };
 
 #endif /* CAR_H_ */
