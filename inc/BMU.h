@@ -19,27 +19,27 @@ public:
 	void CANHandler(uint16_t Addr, uint32_t DataA, uint32_t DataB);
 	void TimedCalculations(uint16_t MSecInterval);
 
-	uint16_t getBMUAddress() const { return BMUAddress; }
-	uint16_t getShuntAddress() const { return ShuntAddress; }
-	float getBusI() const { return BusI; }
-	float getBusV() const { return BusV; }
-	float getWatts() const { return BusV * BusI; }
-	float getWattHrs() const { return WattHrs; }
-	uint32_t getStatus() const { return Status | (ConnectionTimer << 16); }
+	uint16_t getBMUAddress() const { return _BMUAddress; }
+	uint16_t getShuntAddress() const { return _ShuntAddress; }
+	float getBusI() const { return _BusI; }
+	float getBusV() const { return _BusV; }
+	float getWatts() const { return _BusV * _BusI; }
+	float getWattHrs() const { return _WattHrs; }
+	uint32_t getStatus() const { return _Status | (_ConnectionTimer << 16); }
 
 private:
-	const uint16_t BMUAddress;
-	const uint16_t ShuntAddress;
-	uint8_t ConnectionTimer;
-	uint32_t Status;
+	const uint16_t _BMUAddress;
+	const uint16_t _ShuntAddress;
+	uint8_t _ConnectionTimer;
+	uint32_t _Status;
 
-	float BusV;
-	float BusI;
-	float WattHrs;
+	float _BusV;
+	float _BusI;
+	float _WattHrs;
 
-	float PeakBusV;
-	float PeakBusI;
-	float PeakBusW;
+	float _PeakBusV;
+	float _PeakBusI;
+	float _PeakBusW;
 
 	// These are probably unnessecary 
 	uint16_t MinCellV;    // Minimum Cell Voltage

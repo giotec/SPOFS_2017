@@ -8,7 +8,7 @@
 #include "BMU.h"
 #include "Converter.h"
 
-BMU::BMU(uint16_t BMUAddr, uint16_t ShuntAddr):BMUAddress(BMUAddr),ShuntAddress(ShuntAddr)
+BMU::BMU(uint16_t BMUAddr, uint16_t ShuntAddr):_BMUAddress(BMUAddr),_ShuntAddress(ShuntAddr)
 {
 
 }
@@ -28,20 +28,20 @@ BMU::~BMU()
 */
 void BMU::CANHandler(uint16_t Addr, uint32_t DataA, uint32_t DataB)
 {
-	if (Addr == ShuntAddress)
+	if (Addr == _ShuntAddress)
 	{
-		BusV = conv_uint_float(DataA); // Values filtered on shunt side
-		BusI = conv_uint_float(DataB);
-		ConnectionTimer = 3;
-		if (PeakBusW < getWatts()) { PeakBusW = getWatts(); }
-		if (PeakBusI < BusI) { PeakBusI = BusI; }
-		if (PeakBusV < BusV) { PeakBusI = BusV; }
+		_BusV = conv_uint_float(DataA); // Values filtered on shunt side
+		_BusI = conv_uint_float(DataB);
+		_ConnectionTimer = 3;
+		if (_PeakBusW < getWatts()) { _PeakBusW = getWatts(); }
+		if (_PeakBusI < _BusI) { _PeakBusI = _BusI; }
+		if (_PeakBusV < _BusV) { _PeakBusI = _BusV; }
 	}
-	else if (Addr == ShuntAddress + 0x2)
+	else if (Addr == _ShuntAddress + 0x2)
 	{
-		WattHrs = conv_uint_float(DataA);
+		_WattHrs = conv_uint_float(DataA);
 	}
-	else if (Addr == BMUAddress + 0xF8)
+	else if (Addr == _BMUAddress + 0xF8)
 	{
 		MinCellV = DataA & 0xFFFF;
 		MaxCellV = (DataA >> 16) & 0xFFFF;
@@ -50,14 +50,14 @@ void BMU::CANHandler(uint16_t Addr, uint32_t DataA, uint32_t DataB)
 		CellMinV = (DataB >> 8) & 0xFF;
 		CellMaxV = (DataB >> 24) & 0xFF;
 	}
-	else if (Addr == BMUAddress + 0xF9)
+	else if (Addr == _BMUAddress + 0xF9)
 	{
 		MinCellTmp = DataA & 0xFFFF;
 		MaxCellTmp = (DataA >> 16) & 0xFFFF;
 		CMUMinTmp = DataB & 0xFF;
 		CMUMaxTmp = (DataB >> 16) & 0xFF;
 	}
-	else if (Addr == BMUAddress + 0xFD)
+	else if (Addr == _BMUAddress + 0xFD)
 	{
 		Status = DataA & 0x7; // Only Voltage and Temperature flags relevant
 	}
@@ -75,5 +75,5 @@ void BMU::TimedCalculations(uint16_t MSecInterval)
 
 	SecCounter = (SecCounter++) % (1000 / MSecInterval);
 
-	if (!SecCounter) { ConnectionTimer--; }
+	if (!SecCounter) { _ConnectionTimer--; }
 }

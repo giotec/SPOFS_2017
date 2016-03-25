@@ -15,17 +15,17 @@ public:
   Clock();
   virtual ~Clock();
 
-  int IncrementClock();
-  uint8_t ToggleCheck(unsigned int _int);
+  enum Intervals { IQSec, IHSec, ISec, IMin };
 
-  enum Intervals {IQSec, IHSec, ISec, IMin};
+  int IncrementClock();
+  uint8_t ToggleCheck(Clock::Intervals _int);
 
 private:
-  uint8_t   MSec;   // (mS / 10)
-  uint8_t   Sec;
-  uint8_t   Min;
-  uint8_t   Hour;
-  uint32_t  Days;
+  uint8_t   _MSec;   // (mS / 10)
+  uint8_t   _Sec;
+  uint8_t   _Min;
+  uint8_t   _Hour;
+  uint32_t  _Days;
 };
 
 #endif /* CLOCK_H_ */

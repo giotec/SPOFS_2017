@@ -9,9 +9,9 @@
 
 Button::Button(uint8_t group, uint8_t bit)
 {
-  GPIOBit = bit;
-  GPIOGroup = group;
-  Status = UP;
+  _GPIOBit = bit;
+  _GPIOGroup = group;
+  _Status = UP;
 }
 
 Button::~Button()
@@ -19,66 +19,66 @@ Button::~Button()
   // TODO Auto-generated destructor stub
 }
 
-uint8_t Button::GetStatus()
+Button::ButtonStatus Button::GetStatus()
 {
-  return Status;
+  return _Status;
 }
 
-uint8_t Button::UpdateStatus()
+Button::ButtonStatus Button::UpdateStatus()
 {
 	uint8_t _sts;
-	switch (GPIOGroup)
+	switch (_GPIOGroup)
 	{
 	default:
 	case 0:
-		_sts = LPC_GPIO0->FIOPIN & (1 << GPIOBit);
+		_sts = LPC_GPIO0->FIOPIN & (1 << _GPIOBit);
 		break;
 	case 1:
-		_sts = LPC_GPIO1->FIOPIN & (1 << GPIOBit);
+		_sts = LPC_GPIO1->FIOPIN & (1 << _GPIOBit);
 		break;
 	case 2:
-		_sts = LPC_GPIO2->FIOPIN & (1 << GPIOBit);
+		_sts = LPC_GPIO2->FIOPIN & (1 << _GPIOBit);
 		break;
 	case 3:
-		_sts = LPC_GPIO3->FIOPIN & (1 << GPIOBit);
+		_sts = LPC_GPIO3->FIOPIN & (1 << _GPIOBit);
 		break;
 	case 4:
-		_sts = LPC_GPIO4->FIOPIN & (1 << GPIOBit);
+		_sts = LPC_GPIO4->FIOPIN & (1 << _GPIOBit);
 		break;
 	}
 
-	switch (Status)
+	switch (_Status)
 	{
 	case UP:
-		if (_sts) { Status = PRESSED; }
-		else { Status = UP; }
+		if (_sts) { _Status = PRESSED; }
+		else { _Status = UP; }
 		break;
 	case DOWN:
-		if (_sts) { Status = DOWN; }
-		else { Status = RELEASED; }
+		if (_sts) { _Status = DOWN; }
+		else { _Status = RELEASED; }
 		break;
 	case RELEASED:
-		if (_sts) { Status = PRESSED; }
-		else { Status = UP; }
+		if (_sts) { _Status = PRESSED; }
+		else { _Status = UP; }
 		break;
 	case PRESSED:
-		if (_sts) { Status = DOWN; }
-		else { Status = RELEASED; }
+		if (_sts) { _Status = DOWN; }
+		else { _Status = RELEASED; }
 		break;
 	default:
-		Status = UP;
+		_Status = UP;
 		break;
 	}
 
-	return Status;
+	return _Status;
 }
 
 uint8_t Button::GetBit()
 {
-	return GPIOBit;
+	return _GPIOBit;
 }
 
 uint8_t Button::GetGroup()
 {
-	return GPIOGroup;
+	return _GPIOGroup;
 }

@@ -9,11 +9,11 @@
 
 Clock::Clock()
 {
-  MSec = 0;
-  Sec = 0;
-  Min = 0;
-  Hour = 0;
-  Days = 0;
+  _MSec = 0;
+  _Sec = 0;
+  _Min = 0;
+  _Hour = 0;
+  _Days = 0;
 }
 
 Clock::~Clock()
@@ -23,15 +23,15 @@ Clock::~Clock()
 
 int Clock::IncrementClock()
 {
-  MSec++;
+  _MSec++;
 
-  if(MSec >= 100) // Calculate time
+  if(_MSec >= 100) // Calculate time
   {
-    MSec = 0;
-    Sec++;
-    if(Sec >= 60){Sec = 0;Min++;
-    if(Min >= 60){Min = 0;Hour++;
-    if(Hour >= 24){Hour = 0;Days++;}}}
+    _MSec = 0;
+    _Sec++;
+    if(_Sec >= 60){_Sec = 0;_Min++;
+    if(_Min >= 60){_Min = 0;_Hour++;
+    if(_Hour >= 24){_Hour = 0;_Days++;}}}
   }
 
   // Add timed fire event checks here
@@ -39,21 +39,21 @@ int Clock::IncrementClock()
   return 0;
 }
 
-uint8_t Clock::ToggleCheck(unsigned int _int)
+uint8_t Clock::ToggleCheck(Clock::Intervals _int)
 {
   switch (_int)
   {
     case IQSec: // true for alternating quarter seconds
-      return (MSec%50)/25;
+      return (_MSec%50)/25;
       break;
     case IHSec: // true for alternating half seconds
-      return MSec/50;
+      return _MSec/50;
       break;
     case ISec: // true for alternating seconds
-      return Sec%2;
+      return _Sec%2;
       break;
     case IMin: // true for alternating minutes
-      return Min%2;
+      return _Min%2;
       break;
     default:
       return 0;

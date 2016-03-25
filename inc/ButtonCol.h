@@ -13,14 +13,15 @@
 
 class ButtonCollection {
 public:
-  ButtonCollection(uint8_t** Btns, unsigned int BtnCount);
-  virtual ~ButtonCollection();
+	ButtonCollection(uint8_t* Btns[2], unsigned int BtnCount);
+	virtual ~ButtonCollection();
 
-  uint8_t *UpdateStatus();
-  uint8_t *GetStatus();
+	Button::ButtonStatus *UpdateStatus();
+	Button::ButtonStatus UpdateStatus(int btn);
+	Button::ButtonStatus *GetStatus();
 
 private:
-	unsigned int ButtonCount;
+	const unsigned int ButtonCount;
 	Button **Buttons;
 };
 

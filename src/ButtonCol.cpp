@@ -8,10 +8,8 @@
 #include "ButtonCol.h"
 #include "Button.h"
 
-ButtonCollection::ButtonCollection(uint8_t* Btns[2], unsigned int BtnCount)
+ButtonCollection::ButtonCollection(uint8_t* Btns[2], unsigned int BtnCount):ButtonCount(BtnCount)
 {
-	ButtonCount = BtnCount;
-
 	Buttons = new Button*[ButtonCount];
 
 	for (int i = 0; i < ButtonCount; i++)
@@ -22,12 +20,15 @@ ButtonCollection::ButtonCollection(uint8_t* Btns[2], unsigned int BtnCount)
 
 ButtonCollection::~ButtonCollection()
 {
-	// TODO Auto-generated destructor stub
+	for (int i = 0; i < ButtonCount; i++)
+	{
+		delete Buttons[i];
+	}
 }
 
-uint8_t* ButtonCollection::GetStatus()
+Button::ButtonStatus* ButtonCollection::GetStatus()
 {
-	uint8_t *Status = new uint8_t[ButtonCount];
+	Button::ButtonStatus *Status = new Button::ButtonStatus[ButtonCount];
 
 	for (int i = 0; i < ButtonCount; i++)
 	{
@@ -37,9 +38,9 @@ uint8_t* ButtonCollection::GetStatus()
 	return Status;
 }
 
-uint8_t* ButtonCollection::UpdateStatus()
+Button::ButtonStatus* ButtonCollection::UpdateStatus()
 {
-	uint8_t *Status = new uint8_t[ButtonCount];
+	Button::ButtonStatus *Status = new Button::ButtonStatus[ButtonCount];
 
 	for (int i = 0; i < ButtonCount; i++)
 	{
@@ -47,4 +48,9 @@ uint8_t* ButtonCollection::UpdateStatus()
 	}
 
 	return Status;
+}
+
+Button::ButtonStatus ButtonCollection::UpdateStatus(int btn)
+{
+	return Buttons[btn]->UpdateStatus();
 }
