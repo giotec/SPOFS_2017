@@ -13,6 +13,7 @@
 #endif
 
 #include <cr_section_macros.h>
+#include "CANPacket.h"
 #include "Car.h"
 // TODO: insert other include files here
 
@@ -26,12 +27,8 @@ int main(void) {
 
 	_Car = new Car(0x600, 0x530, 0x400, 0x716, 0x719, 0x500, 0x520, 0x510);
 
-    // Force the counter to be placed into memory
-    volatile static int i = 0 ;
-    // Enter an infinite loop, just incrementing a counter
-	// Replace with _Car.Run()
     while(1) {
-        i++ ;
+        _Car->FreeRun();
     }
     return 0 ;
 }
@@ -42,12 +39,24 @@ extern "C" {
 
 	void SysTick_Handler(void)
 	{
-		_Car->Clk->IncrementClock();
+		_Car->TimedRun();
 	}
 
 	void CAN_IRQHandler(void)
 	{
-
+		uint32_t CANStatus = LPC_CANCR->CANRxSR;
+		if ( CANStatus & (1 << 8) )
+		{
+			CANPacket Pkt(LPC_CAN1->RFS, LPC_CAN1->RID, LPC_CAN1->RDA, LPC_CAN1->RDB);
+			_Car->CANReceive(Pkt);
+			LPC_CAN1->CMR = 0x4;
+		}
+		else if ( CANStatus & (1 << 9) )
+		{
+			CANPacket Pkt(LPC_CAN2->RFS, LPC_CAN2->RID, LPC_CAN2->RDA, LPC_CAN2->RDB);
+			_Car->CANReceive(Pkt);
+			LPC_CAN2->CMR = 0x4;
+		}
 	}
 
 #ifdef __cplusplus

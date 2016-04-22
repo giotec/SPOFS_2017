@@ -17,7 +17,7 @@ public:
 
   enum Intervals { IQSec, IHSec, ISec, IMin };
 
-  int IncrementClock();
+  int IncrementClock(uint16_t MSecInt);
   uint8_t ToggleCheck(Clock::Intervals _int);
 
 private:

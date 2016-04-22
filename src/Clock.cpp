@@ -21,11 +21,11 @@ Clock::~Clock()
   // TODO Auto-generated destructor stub
 }
 
-int Clock::IncrementClock()
+int Clock::IncrementClock(uint16_t MSecInt)
 {
   _MSec++;
 
-  if(_MSec >= 100) // Calculate time
+  if(_MSec >= 1000 / MSecInt) // Calculate time
   {
     _MSec = 0;
     _Sec++;
@@ -34,8 +34,6 @@ int Clock::IncrementClock()
     if(_Hour >= 24){_Hour = 0;_Days++;}}}
   }
 
-  // Add timed fire event checks here
-  // ie every second or every 500mS set a return bit to be passed back to SysTick
   return 0;
 }
 

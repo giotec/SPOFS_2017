@@ -2,31 +2,39 @@
 
 #include "CANTransmitter.h"
 
-#define	MAX_MENU_ITEMS 16
-#define ERROR_ITEMS 4
+// Manage Menu display functions into derived class (X : Menu) and call Menu constructor with menu counts in X constructor
+// Track submenus in display functions (catch SubMenu -1 and default)
+// Redefine CANSend in derived class
 
 class Menu : CANTransmitter
 {
-public:
-	Menu();
+protected:
+	Menu(unsigned int TotalMenuCount, unsigned int ErrorCount, unsigned int ModeCount, unsigned int* ModeMenuCount);
 	~Menu();
 
-	int CANSend(CANTransceiver *Interface, unsigned int PktID);
+	virtual int CANSend(CANTransceiver *Interface, unsigned int PktID) = 0;
+	virtual void DisplayMenu(void) = 0;
+	virtual void DisplayError(uint8_t ErrorNo) = 0;
 
+	void SetDriverMode(unsigned int Mode);
+	unsigned int GetDriverMode() { return _Mode; }
+
+	void SetMenuHome() { _CurrentSubMenuID = 0; _CurrentMenuID = 0; }
 	void CycleMenu(int dir);
 	void CycleSubMenu(int dir);
-	void DisplayMenu(int ac, double *av[]);
-	void SetDriverMode(unsigned int Mode);
 
-	// Insert Menu display functions below and call from DisplayMenu
-	// Track submenus in display functions (catch SubMenu -1 and default)
+	void WriteTitle(char *Title);
+	void WriteLine(char *String, unsigned int Line, unsigned int Pos, unsigned int Len);
+
+	void RotateStringRight (char *String, unsigned int Len);
+	void RotateStringLeft (char *String, unsigned int Len);
 
 private:
+	const unsigned int _TotalMenuCount;
+	const unsigned int _ModeCount;
+	const unsigned int _ModeMenuCount[];
 	int _CurrentMenuID;
 	int _CurrentSubMenuID;
-	unsigned int _MenuCount;
 	unsigned int _Mode;
-	void(*_Menus[MAX_MENU_ITEMS]) (int ac, double *av[]);
-	void(*_Errors[ERROR_ITEMS]) (void);
 };
 

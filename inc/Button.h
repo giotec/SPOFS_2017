@@ -17,16 +17,16 @@ public:
 
   enum ButtonStatus { UP = 0, DOWN = 1, RELEASED = 2, PRESSED = 4 };
 
-  uint8_t GetBit();
-  uint8_t GetGroup();
+  uint8_t GetBit() { return _GPIOBit; }
+  uint8_t GetGroup() { return _GPIOGroup; }
 
   ButtonStatus UpdateStatus();
-  ButtonStatus GetStatus();
+  ButtonStatus GetStatus() { return _Status; }
   
 private:
   ButtonStatus _Status;
-  uint8_t _GPIOBit;
-  uint8_t _GPIOGroup;
+  const uint8_t _GPIOBit;
+  const uint8_t _GPIOGroup;
 };
 
 #endif /* BUTTON_H_ */
