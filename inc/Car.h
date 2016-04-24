@@ -24,6 +24,12 @@ public:
 	Car(uint16_t MSecTick, uint16_t BmuAddr, uint16_t ShuntAddr, uint16_t MotorAddr, uint16_t MPPT1Addr, uint16_t MPPT2Addr, uint16_t ControlAddr, uint16_t InboundAddr, uint16_t OutboundAddr, unsigned int TotalMenuCount, unsigned int ErrorCount, unsigned int ModeCount, unsigned int* ModeMenuCount);
 	~Car();
 
+	// External Calls
+	int FreeRun();
+	int TimedRun();
+	int CANReceive(CANPacket PktIn);
+
+private:
 	// Buttons
 	Button *BtLeft;
 	Button *BtRight;
@@ -66,12 +72,6 @@ public:
 	BMUTRI67WShunt *Bmu;
 	ESCTRI88 *Esc;
 	
-	// External Calls
-	int FreeRun();
-	int TimedRun();
-	int CANReceive(CANPacket PktIn);
-
-private:
 	// Menu
 	int CANSend(CANTransceiver *Interface, unsigned int PktID);
 	void DisplayMenu();

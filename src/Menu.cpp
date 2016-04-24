@@ -18,15 +18,15 @@ Menu::~Menu()
 	delete _Errors;
 }
 
-//int Menu::CANSend(CANTransceiver * Interface, unsigned int PktID)
-//{
-//	return 0;
-//}
+int Menu::CANSend(CANTransceiver * Interface, unsigned int PktID)
+{
+	return -1;
+}
 
 void Menu::CycleMenu(int dir)
 {
 	_CurrentSubMenuID = 0;
-	_CurrentMenuID = (_CurrentMenuID + _MenuCount + dir) % _ModeMenuCount[_Mode];
+	_CurrentMenuID = (_CurrentMenuID + _ModeMenuCount[_Mode] + dir) % _ModeMenuCount[_Mode];
 }
 
 void Menu::CycleSubMenu(int dir)

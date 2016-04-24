@@ -31,7 +31,7 @@ public:
 private:
 	const uint16_t _BMUAddress;
 	const uint16_t _ShuntAddress;
-	uint8_t _ConnectionTimer;
+	uint8_t _ConnectionTimer; // seperate bmu and shunt timer
 	uint32_t _Status;
 
 	float _BusV;

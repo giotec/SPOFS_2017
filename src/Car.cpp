@@ -98,3 +98,31 @@ int Car::TimedRun()
 	Buzz->TimedCalculations(_MSecTick);
 	return 0;
 }
+
+int Car::CANReceive(CANPacket PktIn)
+{
+	uint32_t CANID = PktIn.GetCANID();
+
+	// BMU
+	if (CANID == _BmuAddress   + 0xF8
+	 || CANID == _BmuAddress   + 0xF9
+	 || CANID == _BmuAddress   + 0xFD
+	 || CANID == _ShuntAddress
+	 || CANID == _ShuntAddress + 0x02)
+	{
+		 Bmu->CANReceive(PktIn);
+	}
+	// ESC
+	else if (CANID == _MotorAddress + 0x01
+		  || CANID == _MotorAddress + 0x02
+		  || CANID == _MotorAddress + 0x03
+		  || CANID == _MotorAddress + 0x0E)
+	{
+		Esc->CANReceive(PktIn);
+	}
+	// MPPTS
+	else if (PktIn.GetCANID() == _BmuAddress + 0xFD)
+	{
+
+	}
+}

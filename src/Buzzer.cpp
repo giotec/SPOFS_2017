@@ -21,15 +21,14 @@ Buzzer::~Buzzer() {
 
 void Buzzer::TimedCalculations(uint16_t MSecInterval)
 {
-	if (_Timer >= MSecInterval)
+	if (_Timer)
 	{
-		_Timer -= MSecInterval;
+		if (_Timer >= MSecInterval) { _Timer -= MSecInterval; }
+		else { _Timer = 0; }
+
+		if (!_Timer) { Off(); }
 	}
-	else
-	{
-		_Timer = 0;
-		Off();
-	}
+
 }
 
 void Buzzer::OnMs(unsigned int MSec)
