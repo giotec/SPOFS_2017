@@ -6,13 +6,12 @@
 // Track submenus in display functions (catch SubMenu -1 and default)
 // Redefine CANSend in derived class
 
-class Menu : CANTransmitter
+class Menu
 {
 protected:
 	Menu(unsigned int TotalMenuCount, unsigned int ErrorCount, unsigned int ModeCount, unsigned int* ModeMenuCount);
 	~Menu();
 
-	virtual int CANSend(CANTransceiver *Interface, unsigned int PktID) = 0;
 	virtual void DisplayMenu(void) = 0;
 	virtual void DisplayError(uint8_t ErrorNo) = 0;
 

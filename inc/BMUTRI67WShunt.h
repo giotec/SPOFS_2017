@@ -26,12 +26,15 @@ public:
 	float getBusV() const { return _BusV; }
 	float getWatts() const { return _BusV * _BusI; }
 	float getWattHrs() const { return _WattHrs; }
-	uint32_t getStatus() const { return _Status | (_ConnectionTimer << 16); }
+	uint32_t getStatus() const { return _Status; }
+	uint16_t getConnectionTimer() const { return (_ConnectionTimer) | (_ShuntConnectionTimer << 8); }
+	uint8_t isConnected() const { return (!_ConnectionTimer || !_ShuntConnectionTimer) ? 0 : 1; }
 
 private:
 	const uint16_t _BMUAddress;
 	const uint16_t _ShuntAddress;
-	uint8_t _ConnectionTimer; // seperate bmu and shunt timer
+	uint8_t _ConnectionTimer;
+	uint8_t _ShuntConnectionTimer;
 	uint32_t _Status;
 
 	float _BusV;

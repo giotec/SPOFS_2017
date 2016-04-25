@@ -38,17 +38,40 @@ _OutboundAddress(OutboundAddr)
 	SwDriveMode      = new Switch(2, 11, 2, 10);
 	SwDriveDirection = new Switch(0, 10, 0, 11);
 
+	LgFault             = new Light(0, 27);
+	LgHV                = new Light(1, 8);
+	LgLeftBlinkerBoard  = new Light(3, 25);
+	LgRightBlinkerBoard = new Light(3, 26);
+	LgReverse           = new Light(1, 26);
+	LgRegen             = new Light(1, 24);
+	LgNeutral           = new Light(1, 25);
+	LgDrive             = new Light(1, 23);
+	LgNormal            = new Light(1, 30);
+	LgRace              = new Light(1, 31);
+
+	LgLeftBlinkerCar  = new Light(1, 20);
+	LgRightBlinkerCar = new Light(1, 19);
+	LgBrake           = new Light(1, 21);
+
+	Buzz = new Buzzer(0, 3);
+
 	Clk = new Clock();
 	Bmu = new BMUTRI67WShunt(_BmuAddress, _ShuntAddress);
 	Esc = new ESCTRI88(_MotorAddress);
+	Mppt1 = new MPPTDriveTekRaceV4(_MPPT1Address);
+	Mppt2 = new MPPTDriveTekRaceV4(_MPPT2Address);
 
 	SysTick_Config(SystemCoreClock / (1000 / _MSecTick));
 }
 
 Car::~Car()
 {
+	delete Buzz;
 	delete Clk;
 	delete Bmu;
+	delete Esc;
+	delete Mppt1;
+	delete Mppt2;
 
 	// Buttons
 	delete BtLeft;
@@ -109,20 +132,24 @@ int Car::CANReceive(CANPacket PktIn)
 	 || CANID == _BmuAddress   + 0xFD
 	 || CANID == _ShuntAddress
 	 || CANID == _ShuntAddress + 0x02)
-	{
-		 Bmu->CANReceive(PktIn);
-	}
+	{ Bmu->CANReceive(PktIn); }
 	// ESC
 	else if (CANID == _MotorAddress + 0x01
 		  || CANID == _MotorAddress + 0x02
 		  || CANID == _MotorAddress + 0x03
+		  || CANID == _MotorAddress + 0x0B
 		  || CANID == _MotorAddress + 0x0E)
-	{
-		Esc->CANReceive(PktIn);
-	}
+	{ Esc->CANReceive(PktIn); }
 	// MPPTS
-	else if (PktIn.GetCANID() == _BmuAddress + 0xFD)
+	else if (CANID == _MPPT1Address + 0x60)
 	{
-
+		Mppt1->CANReceive(PktIn);
+		CANSend(, PktInt);
 	}
+	else if (CANID == _MPPT2Address + 0x60)
+	{
+		Mppt2->CANReceive(PktIn);
+		CANSend(, PktInt);
+	}
+	// Other Packets
 }

@@ -19,6 +19,9 @@
 
 // TODO: insert other definitions and declarations here
 
+// TODO: implement average power base class. Use static member to hold counter, protected access to individual figure.
+// static reset function + get and set of individual figures.
+
 Car* _Car;
 
 int main(void) {

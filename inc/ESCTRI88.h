@@ -27,6 +27,9 @@ public:
 	float getWattHrs() const { return _WattHrs; }
 	float getKMH() const { return _KMH; }
 	float getOdometer() const { return _Odometer; }
+	uint32_t getStatus() const { return _Status; }
+	uint8_t getConnectionTimer() const { return _ConnectionTimer; }
+	uint8_t isConnected() const { return _ConnectionTimer ? 1 : 0; }
 
 private:
 	const uint16_t _ESCAddress;
@@ -43,6 +46,8 @@ private:
 
 	float _KMH;
 	float _Odometer;
+
+	float _MotorTemp;
 };
 
 #endif /* ESCTRI88_H_ */

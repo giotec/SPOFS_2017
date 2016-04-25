@@ -23,6 +23,7 @@ _ESCAddress(ESCAddr)
 
 	_Odometer = 0;
 	_KMH = 0;
+	_MotorTemp = 0;
 }
 
 ESCTRI88::~ESCTRI88() {}
@@ -36,12 +37,14 @@ ESCTRI88::~ESCTRI88() {}
 */
 void ESCTRI88::CANReceive(CANPacket PktIn)
 {
+	uint32_t CANID = PktIn.GetCANID();
+
 	_ConnectionTimer = 3;
-	if (PktIn.GetCANID() == _ESCAddress + 1)
+	if (CANID == _ESCAddress + 1)
 	{
 		_Status = PktIn.GetDataA() >> 16;
 	}
-	else if (PktIn.GetCANID() == _ESCAddress + 2)
+	else if (CANID == _ESCAddress + 2)
 	{
 		_BusV = iir_filter_float(conv_uint_float(PktIn.GetDataA()), _BusV, 1000);
 		_BusI = iir_filter_float(conv_uint_float(PktIn.GetDataB()), _BusI, 1000);
@@ -49,11 +52,15 @@ void ESCTRI88::CANReceive(CANPacket PktIn)
 		if (_PeakBusI < _BusI) { _PeakBusI = _BusI; }
 		if (_PeakBusV < _BusV) { _PeakBusI = _BusV; }
 	}
-	else if (PktIn.GetCANID() == _ESCAddress + 3)
+	else if (CANID == _ESCAddress + 3)
 	{
 		_KMH = conv_uint_float(PktIn.GetDataB()) * 3.6;
 	}
-	else if (PktIn.GetCANID() == _ESCAddress + 14)
+	else if (CANID == _ESCAddress + 11)
+	{
+		_MotorTemp = conv_uint_float(PktIn.GetDataA());
+	}
+	else if (CANID == _ESCAddress + 14)
 	{
 		_Odometer = conv_uint_float(PktIn.GetDataA());
 	}

@@ -71,9 +71,12 @@ private:
 	// Car Components
 	BMUTRI67WShunt *Bmu;
 	ESCTRI88 *Esc;
+	MPPTDriveTekRaceV4 *Mppt1;
+	MPPTDriveTekRaceV4 *Mppt2;
 	
+	int CANSend(CANTransceiver *Interface, CANPacket PktOut);
+
 	// Menu
-	int CANSend(CANTransceiver *Interface, unsigned int PktID);
 	void DisplayMenu();
 	void DisplayError(uint8_t ErrorNo);
 
