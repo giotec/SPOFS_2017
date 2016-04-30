@@ -56,6 +56,9 @@ _OutboundAddress(OutboundAddr)
 	Buzz = new Buzzer(0, 3);
 
 	Clk = new Clock();
+	Can500K = new CANTransceiver(1, CANTransceiver.BitRate.BITRATE500K30MHZ);
+	Can125K = new CANTransceiver(2, CANTransceiver.BitRate.BITRATE125K30MHZ);
+
 	Bmu = new BMUTRI67WShunt(_BmuAddress, _ShuntAddress);
 	Esc = new ESCTRI88(_MotorAddress);
 	Mppt1 = new MPPTDriveTekRaceV4(_MPPT1Address);
@@ -68,6 +71,8 @@ Car::~Car()
 {
 	delete Buzz;
 	delete Clk;
+	delete Can125K;
+	delete Can500K;
 	delete Bmu;
 	delete Esc;
 	delete Mppt1;
@@ -104,9 +109,9 @@ Car::~Car()
 	delete LgBrake;
 }
 
-int Car::CANSend(CANTransceiver *Interface, unsigned int PktID)
+int Car::CANSend(CANTransceiver *Interface, CANPacket PktOut)
 {
-	return 0;
+	return Interface->Send(PktOut);
 }
 
 int Car::FreeRun()
@@ -119,6 +124,7 @@ int Car::TimedRun()
 	Clk->IncrementClock(_MSecTick);
 	Bmu->TimedCalculations(_MSecTick);
 	Buzz->TimedCalculations(_MSecTick);
+	Esc->TimedCalculations(_MSecTick);
 	return 0;
 }
 
@@ -140,16 +146,16 @@ int Car::CANReceive(CANPacket PktIn)
 		  || CANID == _MotorAddress + 0x0B
 		  || CANID == _MotorAddress + 0x0E)
 	{ Esc->CANReceive(PktIn); }
-	// MPPTS
+	// MPPTS -- receive and redirect packets onto main network for collection by telemetry
 	else if (CANID == _MPPT1Address + 0x60)
 	{
 		Mppt1->CANReceive(PktIn);
-		CANSend(, PktInt);
+		CANSend(Can500K, PktIn);
 	}
 	else if (CANID == _MPPT2Address + 0x60)
 	{
 		Mppt2->CANReceive(PktIn);
-		CANSend(, PktInt);
+		CANSend(Can500K, PktIn);
 	}
 	// Other Packets
 }

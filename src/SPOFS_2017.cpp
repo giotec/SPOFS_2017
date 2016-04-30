@@ -52,13 +52,13 @@ extern "C" {
 		{
 			CANPacket Pkt(LPC_CAN1->RFS, LPC_CAN1->RID, LPC_CAN1->RDA, LPC_CAN1->RDB);
 			_Car->CANReceive(Pkt);
-			LPC_CAN1->CMR = 0x4;
+			LPC_CAN1->CMR |= 0x4;
 		}
 		else if ( CANStatus & (1 << 9) )
 		{
 			CANPacket Pkt(LPC_CAN2->RFS, LPC_CAN2->RID, LPC_CAN2->RDA, LPC_CAN2->RDB);
 			_Car->CANReceive(Pkt);
-			LPC_CAN2->CMR = 0x4;
+			LPC_CAN2->CMR |= 0x4;
 		}
 	}
 

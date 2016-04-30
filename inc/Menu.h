@@ -2,7 +2,7 @@
 
 #include "CANTransmitter.h"
 
-// Manage Menu display functions into derived class (X : Menu) and call Menu constructor with menu counts in X constructor
+// Manage Menu display functions in derived class (X : Menu) and call Menu constructor with menu counts in X constructor
 // Track submenus in display functions (catch SubMenu -1 and default)
 // Redefine CANSend in derived class
 
@@ -33,7 +33,7 @@ private:
 	const unsigned int _ModeCount;
 	const unsigned int _ModeMenuCount[];
 	int _CurrentMenuID;
-	int _CurrentSubMenuID;
+	int _CurrentSubMenuID; // Maintain submenu counts in car class?
 	unsigned int _Mode;
 };
 

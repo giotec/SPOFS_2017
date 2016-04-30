@@ -67,6 +67,8 @@ private:
 
 	// Misc
 	Clock *Clk;
+	CANTransceiver *Can500K;
+	CANTransceiver *Can125K;
 
 	// Car Components
 	BMUTRI67WShunt *Bmu;
